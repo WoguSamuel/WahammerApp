@@ -46,17 +46,13 @@ class WarhammerViewModel @Inject constructor(
     }
 
     fun searchCards() = viewModelScope.launch {
-        _cards.update {
-            getFilteredCardsFromDB()
-        }
+        _cards.value = getFilteredCardsFromDB()
     }
 
     private suspend fun getFilteredCardsFromDB(): List<CacheCard> =
         withContext(IO) {
             return@withContext cacheRepository.getFilteredCards(
-                name = query.value,
-                colourText = query.value,
-                ruleText = query.value
+                query = query.value
             )
         }
 
@@ -92,7 +88,6 @@ class WarhammerViewModel @Inject constructor(
             response.body()?.let { setResponse ->
                 cacheRepository.insertSetsToDatabase(setResponse.mapToCache())
             }
-//            loading.value = false
         } catch (e: Exception) {
             Log.e("launchJob: Exception: $e", "${e.cause}")
             e.printStackTrace()

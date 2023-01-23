@@ -22,8 +22,8 @@ interface WarhammerDAO {
     @Query("SELECT * FROM warhammer_table")
     fun getCards(): List<CacheCard>
 
-    @Query("SELECT * FROM warhammer_table WHERE name LIKE '%'||:name||'%' OR '%'||:colourText||'%' OR '%'||:ruleText||'%' ")
-    fun getFilteredCards(name: String, colourText: String, ruleText: String): List<CacheCard>
+    @Query("SELECT * FROM warhammer_table WHERE name OR colourText OR rulesText LIKE '%'||:query||'%'")
+    fun getFilteredCards(query: String): List<CacheCard>
 
     @Transaction
     @Query("SELECT * FROM CacheWarband")

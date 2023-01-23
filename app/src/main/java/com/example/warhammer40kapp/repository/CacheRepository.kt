@@ -12,7 +12,7 @@ interface CacheRepository {
 
     suspend fun insertCardsToDatabase(cards: List<CacheCard>)
 
-    suspend fun getFilteredCards(name: String, colourText: String, ruleText: String): List<CacheCard>
+    suspend fun getFilteredCards(query: String): List<CacheCard>
 
     suspend fun insertWarbandsToDatabase(warbands: List<CacheWarband>)
 
@@ -34,8 +34,8 @@ class CacheRepositoryImpl @Inject constructor(
         warhammerDAO.insertCards(cards)
     }
 
-    override suspend fun getFilteredCards(name: String, colourText: String, ruleText: String): List<CacheCard> {
-        return warhammerDAO.getFilteredCards(name, colourText, ruleText)
+    override suspend fun getFilteredCards(query: String): List<CacheCard> {
+        return warhammerDAO.getFilteredCards(query)
     }
 
     override suspend fun insertWarbandsToDatabase(warbands: List<CacheWarband>) {
