@@ -18,7 +18,6 @@ import androidx.compose.ui.unit.dp
 fun SearchAppBar(
     query: String,
     onQueryChanged: (String) -> Unit,
-    onExecuteSearch: () -> Unit,
     clearFocus: () -> Unit
 ) {
     Surface(
@@ -34,7 +33,6 @@ fun SearchAppBar(
                     value = query,
                     onValueChange = {
                         onQueryChanged(it)
-                        onExecuteSearch()
                     },
                     label = {
                         Text(text = "Search")
@@ -51,7 +49,6 @@ fun SearchAppBar(
                     ),
                     keyboardActions = KeyboardActions(
                         onDone = {
-                            onExecuteSearch()
                             clearFocus()
                         }
                     ),

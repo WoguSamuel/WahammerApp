@@ -26,8 +26,8 @@ data class CacheCard(
     val type: String,
     val warbandId: String,
     val setId: String,
+    val isFavorite : Boolean = false
     ) : Parcelable
-
 
 fun List<Card>.mapToCache(): List<CacheCard> {
     return this.map { card ->
@@ -50,13 +50,13 @@ fun List<Card>.mapToCache(): List<CacheCard> {
 fun Card.mapToCache(): CacheCard {
     return this.let{ card ->
         CacheCard(
-            colourText = card.colourText ?: "",
+            colourText = card.colourText,
             glory = card.glory ,
             id = card.id,
             isNew = card.isNew,
             name = card.name,
             number = card.number,
-            rulesText = card.rulesText ?: "",
+            rulesText = card.rulesText,
             surge = card.surge,
             type = card.type,
             warbandId = card.warbandId,

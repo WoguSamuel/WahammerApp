@@ -7,7 +7,7 @@ import androidx.navigation.NavType
 import com.example.warhammer40kapp.model.cache.CacheCard
 import com.google.gson.Gson
 
-class WarhammerNavType : NavType<CacheCard>(isNullableAllowed = false) {
+class WarhammerCardNavType : NavType<CacheCard>(isNullableAllowed = false) {
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun get(bundle: Bundle, key: String): CacheCard? {

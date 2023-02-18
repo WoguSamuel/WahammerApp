@@ -4,8 +4,10 @@ import com.example.warhammer40kapp.cache.WarhammerDAO
 import com.example.warhammer40kapp.model.cache.CacheCard
 import com.example.warhammer40kapp.model.cache.CacheSet
 import com.example.warhammer40kapp.model.cache.CacheWarband
+import com.example.warhammer40kapp.model.cache.relations.SetWithCard
 import com.example.warhammer40kapp.model.cache.relations.SetWithCards
 import com.example.warhammer40kapp.model.cache.relations.WarbandWithCards
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 interface CacheRepository {
@@ -20,9 +22,15 @@ interface CacheRepository {
 
     suspend fun getCardsFromDatabase() : List<CacheCard>
 
+    fun getCardsStream() : Flow<List<CacheCard>>
+
+    fun updateFavorite(isFavorite: Boolean, id:String)
+
     suspend fun getWarbandWithCardsFromDatabase() : List<WarbandWithCards>
 
     suspend fun getSetWithCardsFromDatabase() : List<SetWithCards>
+
+    suspend fun getSetWithCardFromDatabase() : SetWithCard
 
 }
 
@@ -50,12 +58,24 @@ class CacheRepositoryImpl @Inject constructor(
         return warhammerDAO.getCards()
     }
 
+    override fun getCardsStream(): Flow<List<CacheCard>> {
+        return warhammerDAO.observeCards()
+    }
+
+    override fun updateFavorite(isFavorite: Boolean, id:String) {
+        warhammerDAO.updateFavorite( isFavorite, id)
+    }
+
     override suspend fun getWarbandWithCardsFromDatabase(): List<WarbandWithCards> {
         return warhammerDAO.getWarbandWithCards()
     }
 
     override suspend fun getSetWithCardsFromDatabase(): List<SetWithCards> {
         return warhammerDAO.getSetWithCards()
+    }
+
+    override suspend fun getSetWithCardFromDatabase(): SetWithCard {
+        return warhammerDAO.getSetWithCard()
     }
 
 }

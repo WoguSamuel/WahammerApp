@@ -8,7 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.warhammer40kapp.presentation.cards.WarHammerCardListScreen
+import com.example.warhammer40kapp.presentation.cards.WarHammerCardsListScreen
 import com.example.warhammer40kapp.presentation.detailscreen.CardDetailScreen
 import com.example.warhammer40kapp.presentation.navigation.Destinations.CARD_DETAIL_SCREEN_ARGUMENTS
 import com.example.warhammer40kapp.presentation.navigation.Destinations.CARD_DETAIL_SCREEN_ROUTE_WITH_ARGUMENTS
@@ -28,7 +28,7 @@ fun NavGraph(
         startDestination = startDestination
     ) {
         composable(route = CARD_LIST_ROUTE) {
-            WarHammerCardListScreen(
+            WarHammerCardsListScreen(
                 navAction = navActions
             )
         }

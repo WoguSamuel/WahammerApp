@@ -9,14 +9,11 @@ import com.example.warhammer40kapp.model.cache.mapToCache
 import com.example.warhammer40kapp.repository.CacheRepository
 import com.example.warhammer40kapp.repository.NetworkRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,7 +32,7 @@ class WarhammerViewModel @Inject constructor(
 
     private fun setUp() {
         runBlocking {
-            val one = async { getCardsFromNetwork() }
+            val one = async { getCardsFromNetwork()}
             val two = async { getWarbandsFromNetwork() }
             val three = async { getSetsFromNetwork() }
         }
@@ -55,7 +52,6 @@ class WarhammerViewModel @Inject constructor(
                 query = query.value
             )
         }
-
 
     private fun getCardsFromNetwork() = viewModelScope.launch(IO) {
         try {
@@ -99,6 +95,12 @@ class WarhammerViewModel @Inject constructor(
             _cards.update {
                 cacheRepository.getCardsFromDatabase()
             }
+        }
+    }
+
+    private suspend fun getSetWithCardFromDB() = viewModelScope.launch {
+        withContext(IO) {
+            _cards.value += cacheRepository.getSetWithCardFromDatabase().card
         }
     }
 }

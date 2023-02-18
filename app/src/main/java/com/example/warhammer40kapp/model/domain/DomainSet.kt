@@ -1,22 +1,22 @@
-package com.example.warhammer40kapp.model.cache
+package com.example.warhammer40kapp.model.domain
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.example.warhammer40kapp.model.cache.CacheSet
 import com.example.warhammer40kapp.model.network.Set
 
-@Entity
-data class CacheSet(
+data class DomainSet(
     @PrimaryKey
     val id: String,
     val name: String,
     val series: Int
 )
 
-fun List<Set>.mapToCache(): List<CacheSet> {
+fun List<CacheSet>.mapToDomain(): List<DomainSet> {
     return this.map { set ->
-        CacheSet(
+        DomainSet(
             id = set.id,
             name = set.name,
             series = set.series,

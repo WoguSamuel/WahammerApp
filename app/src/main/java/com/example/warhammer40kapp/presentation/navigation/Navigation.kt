@@ -6,7 +6,7 @@ import androidx.navigation.navArgument
 import com.example.warhammer40kapp.presentation.navigation.Destinations.CARD_DETAIL_SCREEN_ROUTE
 import com.example.warhammer40kapp.presentation.navigation.Destinations.CARD_LIST_ROUTE
 import com.example.warhammer40kapp.presentation.navigation.DestinationsArgs.CARD_ARG
-import com.example.warhammer40kapp.utils.WarhammerNavType
+import com.example.warhammer40kapp.utils.WarhammerCardNavType
 
 /**
  * Screens used in [Destinations]
@@ -19,7 +19,7 @@ sealed class Screens(val route: String, val arguments: List<NamedNavArgument>) {
         "CardDetailScreen",
         arguments = listOf(
             navArgument("card") {
-                type = WarhammerNavType()
+                type = WarhammerCardNavType()
             }
         )
     )

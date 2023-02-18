@@ -1,14 +1,14 @@
 package com.example.warhammer40kapp.di
 
-import com.example.warhammer40kapp.repository.CacheRepository
-import com.example.warhammer40kapp.repository.CacheRepositoryImpl
-import com.example.warhammer40kapp.repository.NetworkRepository
-import com.example.warhammer40kapp.repository.NetworkRepositoryImpl
+import com.example.warhammer40kapp.repository.*
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -25,4 +25,14 @@ abstract class RepositoryModule {
     abstract fun provideCacheRepository(
        cacheRepositoryImpl: CacheRepositoryImpl
     ): CacheRepository
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideMainRepository(
+       mainRepositoryImpl: MainRepositoryImpl
+    ): MainRepository
+
+//    @Provides
+//    @IoDispatcher
+//    fun providesIODispatcher(): CoroutineDispatcher = Dispatchers.IO
 }

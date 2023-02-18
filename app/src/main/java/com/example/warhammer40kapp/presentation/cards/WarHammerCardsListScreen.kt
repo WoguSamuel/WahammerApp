@@ -3,48 +3,48 @@ package com.example.warhammer40kapp.presentation.cards
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.warhammer40kapp.model.cache.CacheCard
-import com.example.warhammer40kapp.presentation.WarhammerViewModel
+import com.example.warhammer40kapp.model.domain.DomainCard
+import com.example.warhammer40kapp.presentation.WarhammerCardsViewModel
 import com.example.warhammer40kapp.presentation.navigation.NavigationActions
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
-fun WarHammerCardListScreen(
-    warHammerViewModel: WarhammerViewModel = hiltViewModel(),
+fun WarHammerCardsListScreen(
+    warHammerViewModel: WarhammerCardsViewModel = hiltViewModel(),
     scaffoldState: ScaffoldState = rememberScaffoldState(),
     navAction : NavigationActions
 ) {
 
     val focusManager = LocalFocusManager.current
+    val uiState = warHammerViewModel.uiState.collectAsStateWithLifecycle()
 
     Scaffold(scaffoldState = scaffoldState, topBar = {
         SearchAppBar(
-            query = warHammerViewModel.query.value,
+            query = uiState.value.query,
             onQueryChanged = warHammerViewModel::onQueryChanged,
-            onExecuteSearch = warHammerViewModel::searchCards,
             clearFocus = focusManager::clearFocus,
         )
     }) { paddingValues ->
-        val cards by warHammerViewModel.cards.collectAsStateWithLifecycle()
-        CardScreenContent(
+        CardsScreenContent(
             modifier = Modifier.padding(paddingValues),
-            cards = cards,
-            navAction = navAction
+            cards = uiState.value.cards,
+            navAction = navAction,
+            onFavoriteCard = warHammerViewModel::onFavoriteCard
         )
     }
 }
 
 @Composable
-private fun CardScreenContent(
+private fun CardsScreenContent(
     modifier: Modifier = Modifier,
-    cards: List<CacheCard>,
+    cards: List<DomainCard>,
+    onFavoriteCard: (isFavorite: Boolean, id:String) -> Unit,
     navAction: NavigationActions
 ) {
     val screenPadding = Modifier.padding(
@@ -65,7 +65,10 @@ private fun CardScreenContent(
         ) {
             WarHammerCardsList(
                 cards = cards,
-                navAction = navAction
+                navAction = navAction,
+                onFavoriteCard = { isFavorite, id ->
+                    onFavoriteCard(isFavorite, id)
+                }
             )
         }
     }
